@@ -1,9 +1,9 @@
 import 'package:alpha_store/models/loading_state.dart';
 import 'package:alpha_store/models/product.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -28,10 +28,19 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: product.image,
+            // FadeInImage.memoryNetwork(
+            //   placeholder: kTransparentImage,
+            //   image: product.image,
+            //   height: 200,
+            // ),
+            CachedNetworkImage(
+              imageUrl: product.image,
               height: 200,
+              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) {
+                debugPrint('error: $error');
+                return Icon(Icons.error);
+              },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -55,6 +64,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildGridListView(List<Product> products) {
+    // var itemViews = products.map((e) => buildItemView(e)).toList();
+    //
+    // return SingleChildScrollView(
+    //   child: Column(
+    //     children: itemViews,
+    //   ),
+    // );
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200, childAspectRatio: 0.6, crossAxisSpacing: 4, mainAxisSpacing: 4),

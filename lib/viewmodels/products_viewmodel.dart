@@ -15,11 +15,26 @@ class ProductsViewModel extends ChangeNotifier {
   late Tuple2<ErrorResponse?, List<Category>?> categoriesResponse;
   LoadingState categoriesLoadingState = LoadingState.idle;
 
+  List<Product> cartItems = [];
 
   ProductsViewModel() {
     productsResponse = const Tuple2(null, null);
     categoriesResponse = const Tuple2(null, null);
   }
+
+  void addToCart(Product product) {
+    bool exists = cartItems.indexWhere((element) => element.id == product.id) >= 0;
+
+    if (!exists) {
+      cartItems.add(product);
+      notifyListeners();
+    }
+  }
+
+  bool isInCart(Product product) {
+    return cartItems.indexWhere((element) => element.id == product.id) >= 0;
+  }
+
 
   void fetchCategories() async {
     categoriesLoadingState = LoadingState.loading;

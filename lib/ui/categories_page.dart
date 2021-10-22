@@ -39,6 +39,7 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
                 category.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 20),
               ),
             ),
             Expanded(child: Container()),

@@ -1,3 +1,5 @@
+import 'package:alpha_store/ui/register_page.dart';
+import 'package:alpha_store/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +9,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var emailTextController = TextEditingController();
+  var mobileTextController = TextEditingController();
   var passwordTextController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     return Scaffold(
+      appBar: AppBar(title: Text('Login'),),
       body: ListView(
         children: [
           Padding(
@@ -35,9 +40,9 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   textAlign: TextAlign.center,
-                  controller: emailTextController,
+                  controller: mobileTextController,
                   decoration: InputDecoration(
-                      hintText: 'Email'
+                      hintText: 'Mobile Number'
                   ),
                 ),
               ),
@@ -63,10 +68,10 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(onPressed: () {
-              if (emailTextController.text.isEmpty) {
-                debugPrint('emailTextController.text is empty...');
+              if (mobileTextController.text.isEmpty) {
+                debugPrint('mobileTextController.text is empty...');
               }
-              debugPrint('emailTextController.text: ${emailTextController.text}');
+              debugPrint('mobileTextController.text: ${mobileTextController.text}');
               debugPrint('passwordTextController.text: ${passwordTextController.text}');
             }, child: Text('Login')),
           ),
@@ -76,7 +81,9 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text('If you\'re new to our platform, you can'),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    openPage(context, RegisterPage());
+                  },
                   child: Text('Register'),
                 ),
                 Text('now'),

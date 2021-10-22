@@ -1,3 +1,4 @@
+import 'package:alpha_store/ui/categories_page.dart';
 import 'package:alpha_store/ui/home_page.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    CategoriesPage(),
     Text(
       'Index 2: School',
       style: optionStyle,

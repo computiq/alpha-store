@@ -23,10 +23,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildItemView(Product product) {
-    return InkWell(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_context) => DetailsPage(product))),
-      child: Card(
-        elevation: 0,
+    return Card(
+      elevation: 0,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_context) => DetailsPage(product))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -83,9 +83,9 @@ class _HomePageState extends State<HomePage> {
 
     Widget view = Text('Idle!');
 
-    if (_productsViewModel.loadingState == LoadingState.loading) {
+    if (_productsViewModel.productsLoadingState == LoadingState.loading) {
       view = const CircularProgressIndicator();
-    } else if (_productsViewModel.loadingState == LoadingState.finished) {
+    } else if (_productsViewModel.productsLoadingState == LoadingState.finished) {
       if (_productsViewModel.productsResponse.item1 == null) {
         view = buildGridListView(_productsViewModel.productsResponse.item2 ?? []);
       } else {

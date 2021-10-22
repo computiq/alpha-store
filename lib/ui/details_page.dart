@@ -1,6 +1,8 @@
 import 'package:alpha_store/models/product.dart';
+import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage(this.product);
@@ -77,16 +79,29 @@ class DetailsPage extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             buildItemView(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: ConstrainedBox(
-                constraints: BoxConstraints.tightFor(width: screenWidth * 0.9),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Add to Cart'),
-                ),
-              ),
-            )
+            Consumer<ProductsViewModel>(builder: (context, viewModel, child) {
+              bool isInCart = viewModel.isInCart(product);
+
+              return isInCart
+                  ? Container(
+                    height: 50,
+                    width: screenWidth,
+                    color: Colors.grey,
+                    alignment: Alignment.center,
+                    child: Text('In the Cart', style: TextStyle(fontSize: 20, color: Colors.white),),
+                  )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(width: screenWidth * 0.9),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              viewModel.addToCart(product);
+                            },
+                            child: const Text('Add to Cart')),
+                      ),
+                    );
+            }),
           ],
         )));
   }

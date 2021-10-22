@@ -1,3 +1,5 @@
+import 'package:alpha_store/ui/cart_page.dart';
+import 'package:alpha_store/ui/categories_page.dart';
 import 'package:alpha_store/ui/home_page.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -39,16 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    const CategoriesPage(),
+    CartPage(),
     Text(
       'Index 3: Settings',
       style: optionStyle,
@@ -65,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
+        title: const Text('AlphaStore'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -79,12 +75,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            label: 'Business',
+            label: 'Categories',
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
             backgroundColor: Colors.purple,
           ),
           BottomNavigationBarItem(
@@ -94,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

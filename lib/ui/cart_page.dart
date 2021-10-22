@@ -1,8 +1,11 @@
 import 'package:alpha_store/models/product.dart';
+import 'package:alpha_store/utils/app_utils.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'login_page.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage();
@@ -39,7 +42,7 @@ class _CartPageState extends State<CartPage> with AutomaticKeepAliveClientMixin<
               placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
               errorWidget: (context, url, error) {
                 debugPrint('error: $error');
-                return Icon(Icons.error);
+                return const Icon(Icons.error);
               },
             ),
             Expanded(
@@ -73,6 +76,26 @@ class _CartPageState extends State<CartPage> with AutomaticKeepAliveClientMixin<
     super.build(context);
     _productsViewModel = Provider.of<ProductsViewModel>(context);
 
-    return Scaffold(backgroundColor: Color(0xfff9f7f0), body: Center(child: buildListView(_productsViewModel.cartItems)));
+    var screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+        backgroundColor: const Color(0xfff9f7f0),
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Center(child: buildListView(_productsViewModel.cartItems)),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tightFor(width: screenWidth * 0.9),
+                child: ElevatedButton(
+                    onPressed: () {
+                      openPage(context, LoginPage());
+                    },
+                    child: const Text('Place Order')),
+              ),
+            )
+          ],
+        ));
   }
 }

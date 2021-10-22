@@ -20,6 +20,8 @@ class ProductsViewModel extends ChangeNotifier {
   ProductsViewModel() {
     productsResponse = const Tuple2(null, null);
     categoriesResponse = const Tuple2(null, null);
+
+    debugPrint('ProductsViewModel initialized...');
   }
 
   void addToCart(Product product) {

@@ -1,5 +1,6 @@
 import 'package:alpha_store/models/category.dart';
 import 'package:alpha_store/models/loading_state.dart';
+import 'package:alpha_store/viewmodels/categories_viewmodel.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin<CategoriesPage> {
-  late ProductsViewModel _productsViewModel;
+  late CategoriesViewModel _categoriesViewModel;
 
   @override
   bool get wantKeepAlive => true;
@@ -23,7 +24,7 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
 
     debugPrint('_CategoriesPageState.initState...');
 
-    Future.microtask(() => _productsViewModel.fetchCategories());
+    Future.microtask(() => _categoriesViewModel.fetchCategories());
   }
 
   Widget buildItemView(Category category) {
@@ -60,15 +61,15 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    _productsViewModel = Provider.of<ProductsViewModel>(context);
+    _categoriesViewModel = Provider.of<CategoriesViewModel>(context);
 
     Widget view = const Text('Idle!');
 
-    if (_productsViewModel.categoriesLoadingState == LoadingState.loading) {
+    if (_categoriesViewModel.categoriesLoadingState == LoadingState.loading) {
       view = const CircularProgressIndicator();
-    } else if (_productsViewModel.categoriesLoadingState == LoadingState.finished) {
-      if (_productsViewModel.categoriesResponse.item1 == null) {
-        view = buildGridListView(_productsViewModel.categoriesResponse.item2 ?? []);
+    } else if (_categoriesViewModel.categoriesLoadingState == LoadingState.finished) {
+      if (_categoriesViewModel.categoriesResponse.item1 == null) {
+        view = buildGridListView(_categoriesViewModel.categoriesResponse.item2 ?? []);
       } else {
         view = Text('Error!');
       }

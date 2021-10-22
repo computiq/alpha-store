@@ -1,3 +1,4 @@
+import 'package:alpha_store/ui/cart_page.dart';
 import 'package:alpha_store/ui/categories_page.dart';
 import 'package:alpha_store/ui/home_page.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
@@ -43,10 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     CategoriesPage(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    CartPage(),
     Text(
       'Index 3: Settings',
       style: optionStyle,

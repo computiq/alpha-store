@@ -19,11 +19,18 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
 
   @override
   void initState() {
+    debugPrint('_CategoriesPageState.initState called...');
+
     super.initState();
 
     debugPrint('_CategoriesPageState.initState...');
 
-    Future.microtask(() => _productsViewModel.fetchCategories());
+    Future.microtask(() {
+      if (_productsViewModel.categoriesResponse.item2 == null) {
+        _productsViewModel.fetchCategories();
+      }
+
+    });
   }
 
   Widget buildItemView(Category category) {

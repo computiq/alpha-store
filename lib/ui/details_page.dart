@@ -82,24 +82,30 @@ class DetailsPage extends StatelessWidget {
             Consumer<ProductsViewModel>(builder: (context, viewModel, child) {
               bool isInCart = viewModel.isInCart(product);
 
-              return isInCart
-                  ? Container(
-                height: 50,
-                width: screenWidth,
-                color: Colors.grey,
-                alignment: Alignment.center,
-                child: Text('In the Cart', style: TextStyle(fontSize: 20, color: Colors.white),),
-              )
-                  : Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tightFor(width: screenWidth * 0.9),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        viewModel.addToCart(product);
-                      },
-                      child: const Text('Add to Cart')),
+              return AnimatedCrossFade(
+                duration: const Duration(milliseconds: 600),
+                firstChild: Container(
+                  height: 50,
+                  width: screenWidth,
+                  color: Colors.grey,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Added to Cart',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
+                secondChild: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(width: screenWidth * 0.9),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.addToCart(product);
+                        },
+                        child: const Text('Add to Cart')),
+                  ),
+                ),
+                crossFadeState: isInCart ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               );
             }),
           ],

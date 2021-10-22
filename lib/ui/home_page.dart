@@ -1,5 +1,6 @@
 import 'package:alpha_store/models/loading_state.dart';
 import 'package:alpha_store/models/product.dart';
+import 'package:alpha_store/ui/details_page.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -22,55 +23,51 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildItemView(Product product) {
-    return Card(
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            // FadeInImage.memoryNetwork(
-            //   placeholder: kTransparentImage,
-            //   image: product.image,
-            //   height: 200,
-            // ),
-            CachedNetworkImage(
-              imageUrl: product.image,
-              height: 200,
-              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) {
-                debugPrint('error: $error');
-                return Icon(Icons.error);
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                product.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+    return InkWell(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_context) => DetailsPage(product))),
+      child: Card(
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              // FadeInImage.memoryNetwork(
+              //   placeholder: kTransparentImage,
+              //   image: product.image,
+              //   height: 200,
+              // ),
+              CachedNetworkImage(
+                imageUrl: product.image,
+                height: 200,
+                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) {
+                  debugPrint('error: $error');
+                  return Icon(Icons.error);
+                },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '\$${product.price}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  product.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '\$${product.price}',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget buildGridListView(List<Product> products) {
-    // var itemViews = products.map((e) => buildItemView(e)).toList();
-    //
-    // return SingleChildScrollView(
-    //   child: Column(
-    //     children: itemViews,
-    //   ),
-    // );
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200, childAspectRatio: 0.6, crossAxisSpacing: 4, mainAxisSpacing: 4),

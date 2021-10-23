@@ -27,6 +27,7 @@ class Product {
   String category;
   String image;
   Rating rating;
+  int quantity = 1;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],

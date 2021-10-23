@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ProductsViewModel(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<ProductsViewModel>(create: (_) => ProductsViewModel(), lazy: true,),
+    ],
     child: const MyApp(),
-    lazy: true,
   ));
 }
 
@@ -39,8 +40,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     CategoriesPage(),

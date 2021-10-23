@@ -19,6 +19,11 @@ class PexelsViewModel extends ChangeNotifier {
     photosResponse = const Tuple2(null, null);
   }
 
+  void rest() {
+    photosResponse = const Tuple2(null, null);
+    loadingState = LoadingState.idle;
+  }
+
   void fetchImages() async {
     loadingState = LoadingState.loading;
     notifyListeners();

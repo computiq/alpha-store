@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
   Widget buildGridListView(List<Product> products) {
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200, childAspectRatio: 0.6, crossAxisSpacing: 4, mainAxisSpacing: 4),
+            maxCrossAxisExtent: 200, childAspectRatio: 0.58, crossAxisSpacing: 4, mainAxisSpacing: 4),
         itemCount: products.length,
         itemBuilder: (BuildContext ctx, index) {
           return buildItemView(products[index]);

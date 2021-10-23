@@ -23,6 +23,8 @@ class _PexelsPageState extends State<PexelsPage> {
 
   bool isLoading = false;
 
+  List<Photo> photos = [];
+
   @override
   void initState() {
     super.initState();
@@ -75,8 +77,9 @@ class _PexelsPageState extends State<PexelsPage> {
 
   void _loadMore() async {
     if (_controller.position.extentAfter < 300) {
-      debugPrint('will loadMore...');
+
       if (_pexelsViewModel.loadingState != LoadingState.loading) {
+        debugPrint('will loadMore...');
         _pexelsViewModel.fetchImages();
       }
     }
@@ -91,12 +94,18 @@ class _PexelsPageState extends State<PexelsPage> {
       } else if (_pexelsViewModel.loadingState == LoadingState.finished) {
         if (_pexelsViewModel.photosResponse.item1 == null) {
           Future.microtask(() {
-            List<Photo> photos = _pexelsViewModel.photosResponse.item2!;
-            for (var element in photos) {
-              _insert(element);
-            }
-            _controller.animateTo(_controller.offset + 400,
-                duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+            debugPrint('will add more photos...');
+
+            setState(() {
+              photos.addAll(_pexelsViewModel.photosResponse.item2!);
+              _pexelsViewModel.rest();
+            });
+            // List<Photo> photos = _pexelsViewModel.photosResponse.item2!;
+            // for (var element in photos) {
+            //   _insert(element);
+            // }
+            // _controller.animateTo(_controller.offset + 400,
+            //     duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
           });
 
           view = Container();
@@ -117,11 +126,16 @@ class _PexelsPageState extends State<PexelsPage> {
         body: Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        AnimatedList(
-          key: _listKey,
+        // AnimatedList(
+        //   key: _listKey,
+        //   controller: _controller,
+        //   initialItemCount: _photosList.length,
+        //   itemBuilder: _buildItem,
+        // ),
+        ListView.builder(
+          itemBuilder: (_context, index) => PhotoItemView(item: photos[index]),
           controller: _controller,
-          initialItemCount: _photosList.length,
-          itemBuilder: _buildItem,
+          itemCount: photos.length,
         ),
         loadingStatus(),
       ],

@@ -1,8 +1,10 @@
 import 'package:alpha_store/ui/categories_page.dart';
 import 'package:alpha_store/ui/home_page.dart';
 import 'package:alpha_store/ui/more_page.dart';
+import 'package:alpha_store/ui/photos_page.dart';
 import 'package:alpha_store/viewmodels/app_viewmodel.dart';
 import 'package:alpha_store/viewmodels/categories_viewmodel.dart';
+import 'package:alpha_store/viewmodels/pexels_viewmodel.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,6 +28,10 @@ void main() {
       ChangeNotifierProvider<ProductsViewModel>(create: (_) => ProductsViewModel()),
       ChangeNotifierProvider<CategoriesViewModel>(
         create: (_) => CategoriesViewModel(),
+        lazy: true,
+      ),
+      ChangeNotifierProvider<PexelsViewModel>(
+        create: (_) => PexelsViewModel(),
         lazy: true,
       ),
     ],
@@ -83,10 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     CategoriesPage(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    PhotosPage(),
     MorePage(),
   ];
 

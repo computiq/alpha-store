@@ -3,7 +3,13 @@ import 'package:alpha_store/ui/home_page.dart';
 import 'package:alpha_store/viewmodels/categories_viewmodel.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+
+import 'i18n/translations_delegate.dart';
+
+const Locale arLocale = Locale('ar');
+const Locale enLocale = Locale('en');
 
 void main() {
   runApp(MultiProvider(
@@ -14,12 +20,19 @@ void main() {
         lazy: true,
       ),
     ],
-    child: const MyApp(),
+    child: MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  List<Locale> get supportedLocales => [
+        arLocale,
+        enLocale,
+      ];
+
+  var currentLocate = arLocale;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +42,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      localizationsDelegates: const [
+        AlphaStoreLocalizationDelegate(),
+        TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: supportedLocales,
+      locale: currentLocate,
     );
   }
 }

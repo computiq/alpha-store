@@ -12,11 +12,8 @@ class CategoriesPage extends StatefulWidget {
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin<CategoriesPage> {
+class _CategoriesPageState extends State<CategoriesPage> {
   late CategoriesViewModel _categoriesViewModel;
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -24,7 +21,11 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
 
     debugPrint('_CategoriesPageState.initState...');
 
-    Future.microtask(() => _categoriesViewModel.fetchCategories());
+    Future.microtask(() {
+      if (_categoriesViewModel.categoriesResponse.item2 == null) {
+        _categoriesViewModel.fetchCategories();
+      }
+    });
   }
 
   Widget buildItemView(Category category) {
@@ -60,7 +61,7 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+
     _categoriesViewModel = Provider.of<CategoriesViewModel>(context);
 
     Widget view = const Text('Idle!');

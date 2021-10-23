@@ -19,7 +19,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => _productsViewModel.fetchProducts());
+    Future.microtask(() {
+      if (_productsViewModel.productsResponse.item2 == null) {
+        _productsViewModel.fetchProducts();
+      }
+    });
   }
 
   Widget buildItemView(Product product) {

@@ -16,6 +16,7 @@ class Translations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'switch_language': 'Switch Language',
       'msg_please_enter_all_fields': 'Please enter all required fields',
       'two_hours': 'hours',
       'hour': 'hour',
@@ -84,6 +85,7 @@ class Translations {
       'app_name': 'Talabatey Partner',
     },
     'ar': {
+      'switch_language': 'تغيير اللغة',
       'msg_please_enter_all_fields': 'يرجى كتابة كافة الحقول',
       'two_hours': 'ساعتين',
       'hour': 'ساعة',
@@ -152,6 +154,8 @@ class Translations {
       'app_name': 'طلباتي للمطاعم',
     },
   };
+
+  String get switchLanguage => _vocabularies?['switch_language'] as String;
 
   String get msgPleaseEnterAllFields => _vocabularies?['msg_please_enter_all_fields'] as String;
 

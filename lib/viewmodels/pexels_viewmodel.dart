@@ -13,7 +13,7 @@ class PexelsViewModel extends ChangeNotifier {
   late Tuple2<ErrorResponse?, List<Photo>?> photosResponse;
   LoadingState loadingState = LoadingState.idle;
 
-  List<Product> cartItems = [];
+  int page = 0;
 
   PexelsViewModel() {
     photosResponse = const Tuple2(null, null);
@@ -25,7 +25,7 @@ class PexelsViewModel extends ChangeNotifier {
 
     var response;
     try {
-      var url = Uri.parse('https://api.pexels.com/v1/curated?page=0&per_page=10');
+      var url = Uri.parse('https://api.pexels.com/v1/curated?page=$page&per_page=10');
       debugPrint('url: ${url}');
       response = await http.get(
         url,
@@ -34,6 +34,8 @@ class PexelsViewModel extends ChangeNotifier {
 
       var jsonModels = jsonDecode(response.body)['photos'];
       List<Photo> models = jsonModels.map<Photo>((_modelJson) => Photo.fromJson(_modelJson)).toList();
+
+      page = page + 1;
 
       photosResponse = Tuple2(null, models);
     } catch (e) {

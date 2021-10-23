@@ -1,7 +1,7 @@
 import 'package:alpha_store/ui/categories_page.dart';
 import 'package:alpha_store/ui/home_page.dart';
 import 'package:alpha_store/ui/more_page.dart';
-import 'package:alpha_store/ui/photos_page.dart';
+import 'package:alpha_store/ui/pexels/pexels_page.dart';
 import 'package:alpha_store/viewmodels/app_viewmodel.dart';
 import 'package:alpha_store/viewmodels/categories_viewmodel.dart';
 import 'package:alpha_store/viewmodels/pexels_viewmodel.dart';
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     CategoriesPage(),
-    PhotosPage(),
+    PexelsPage(),
     MorePage(),
   ];
 

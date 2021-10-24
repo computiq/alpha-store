@@ -18,27 +18,28 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    debugPrint('_HomePageState.initState called...');
     super.initState();
-
     Future.microtask(() {
       if (_productsViewModel.productsResponse.item2 == null) {
         _productsViewModel.fetchProducts();
       }
     });
-
   }
 
   Widget buildItemView(Product product) {
-    return Card(
-      elevation: 0,
-      child: InkWell(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_context) => DetailsPage(product))),
+    return InkWell(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_context) => DetailsPage(product))),
+      child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-
+              // FadeInImage.memoryNetwork(
+              //   placeholder: kTransparentImage,
+              //   image: product.image,
+              //   height: 200,
+              // ),
               CachedNetworkImage(
                 imageUrl: product.image,
                 height: 200,
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
   Widget buildGridListView(List<Product> products) {
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200, childAspectRatio: 0.6, crossAxisSpacing: 4, mainAxisSpacing: 4),
+            maxCrossAxisExtent: 200, childAspectRatio: 0.58, crossAxisSpacing: 4, mainAxisSpacing: 4),
         itemCount: products.length,
         itemBuilder: (BuildContext ctx, index) {
           return buildItemView(products[index]);
@@ -86,9 +87,9 @@ class _HomePageState extends State<HomePage> {
 
     Widget view = Text('Idle!');
 
-    if (_productsViewModel.productsLoadingState == LoadingState.loading) {
+    if (_productsViewModel.loadingState == LoadingState.loading) {
       view = const CircularProgressIndicator();
-    } else if (_productsViewModel.productsLoadingState == LoadingState.finished) {
+    } else if (_productsViewModel.loadingState == LoadingState.finished) {
       if (_productsViewModel.productsResponse.item1 == null) {
         view = buildGridListView(_productsViewModel.productsResponse.item2 ?? []);
       } else {

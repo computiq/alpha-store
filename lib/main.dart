@@ -1,30 +1,75 @@
-import 'package:alpha_store/ui/cart_page.dart';
 import 'package:alpha_store/ui/categories_page.dart';
 import 'package:alpha_store/ui/home_page.dart';
+import 'package:alpha_store/ui/more_page.dart';
+import 'package:alpha_store/ui/pexels/pexels_page.dart';
+import 'package:alpha_store/viewmodels/app_viewmodel.dart';
+import 'package:alpha_store/viewmodels/categories_viewmodel.dart';
+import 'package:alpha_store/viewmodels/pexels_viewmodel.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'i18n/translations.dart';
+import 'i18n/translations_delegate.dart';
+
+const Locale arLocale = Locale('ar');
+const Locale enLocale = Locale('en');
+
+Locale? prevLocale;
+
+
 void main() {
+
+
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<ProductsViewModel>(create: (_) => ProductsViewModel(), lazy: true,),
+      ChangeNotifierProvider<AppViewModel>(create: (_) => AppViewModel()),
+      ChangeNotifierProvider<ProductsViewModel>(create: (_) => ProductsViewModel()),
+      ChangeNotifierProvider<CategoriesViewModel>(
+        create: (_) => CategoriesViewModel(),
+        lazy: true,
+      ),
+      ChangeNotifierProvider<PexelsViewModel>(
+        create: (_) => PexelsViewModel(),
+        lazy: true,
+      ),
     ],
-    child: const MyApp(),
+    child: Consumer<AppViewModel>(builder: (context, viewModel, child) {
+
+      return MyApp(viewModel.appLocale);
+    }),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp(this.currentLocate, {Key? key}) : super(key: key);
+
+  List<Locale> get supportedLocales => [
+        arLocale,
+        enLocale,
+      ];
+
+  final Locale currentLocate;
 
   @override
   Widget build(BuildContext context) {
+
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      localizationsDelegates: const [
+        AlphaStoreLocalizationDelegate(),
+        TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: supportedLocales,
+      locale: currentLocate,
     );
   }
 }
@@ -44,11 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     CategoriesPage(),
-    CartPage(),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    PexelsPage(),
+    MorePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -67,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -85,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'More',
+            label: Translations.of(context).more,
             backgroundColor: Colors.pink,
           ),
         ],

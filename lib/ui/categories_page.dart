@@ -1,5 +1,6 @@
 import 'package:alpha_store/models/category.dart';
 import 'package:alpha_store/models/loading_state.dart';
+import 'package:alpha_store/viewmodels/categories_viewmodel.dart';
 import 'package:alpha_store/viewmodels/products_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,25 +12,19 @@ class CategoriesPage extends StatefulWidget {
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin<CategoriesPage> {
-  late ProductsViewModel _productsViewModel;
-
-  @override
-  bool get wantKeepAlive => true;
+class _CategoriesPageState extends State<CategoriesPage> {
+  late CategoriesViewModel _categoriesViewModel;
 
   @override
   void initState() {
-    debugPrint('_CategoriesPageState.initState called...');
-
     super.initState();
 
     debugPrint('_CategoriesPageState.initState...');
 
     Future.microtask(() {
-      if (_productsViewModel.categoriesResponse.item2 == null) {
-        _productsViewModel.fetchCategories();
+      if (_categoriesViewModel.categoriesResponse.item2 == null) {
+        _categoriesViewModel.fetchCategories();
       }
-
     });
   }
 
@@ -66,16 +61,16 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    _productsViewModel = Provider.of<ProductsViewModel>(context);
+
+    _categoriesViewModel = Provider.of<CategoriesViewModel>(context);
 
     Widget view = const Text('Idle!');
 
-    if (_productsViewModel.categoriesLoadingState == LoadingState.loading) {
+    if (_categoriesViewModel.categoriesLoadingState == LoadingState.loading) {
       view = const CircularProgressIndicator();
-    } else if (_productsViewModel.categoriesLoadingState == LoadingState.finished) {
-      if (_productsViewModel.categoriesResponse.item1 == null) {
-        view = buildGridListView(_productsViewModel.categoriesResponse.item2 ?? []);
+    } else if (_categoriesViewModel.categoriesLoadingState == LoadingState.finished) {
+      if (_categoriesViewModel.categoriesResponse.item1 == null) {
+        view = buildGridListView(_categoriesViewModel.categoriesResponse.item2 ?? []);
       } else {
         view = Text('Error!');
       }

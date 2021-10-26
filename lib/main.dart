@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.image),
             label: 'Cart',
             backgroundColor: Colors.purple,
           ),
